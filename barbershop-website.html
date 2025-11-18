@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BarberTesters - Мужской барбершоп в Туле</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #c8a35f;
+            --dark: #0d0d0d;
+            --darker: #000000;
+            --gray: #1a1a1a;
+            --light-gray: #2a2a2a;
+            --text: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 25px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(200, 163, 95, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: 4px;
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 45px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(200,163,95,0.05)" stroke-width="1"/></pattern></defs><rect width="1920" height="1080" fill="%230d0d0d"/><rect width="1920" height="1080" fill="url(%23grid)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 90px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(200, 163, 95, 0.1), transparent 50%);
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--primary);
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .hero-content h1 {
+            font-size: 90px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #fff;
+            letter-spacing: 8px;
+            line-height: 1.1;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #b0b0b0;
+            margin-bottom: 50px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cta-button {
+            background: var(--primary);
+            color: var(--darker);
+            padding: 18px 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+            transition: all 0.4s;
+            border: 2px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(200, 163, 95, 0.3);
+        }
+
+        /* Services */
+        .services {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--dark);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            color: var(--primary);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 56px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            font-size: 16px;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2px;
+            background: var(--primary);
+        }
+
+        .service-card {
+            background: var(--gray);
+            padding: 50px 40px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: linear-gradient(180deg, var(--primary), transparent);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .service-card:hover::before {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .service-card:hover {
+            background: var(--light-gray);
+            transform: translateY(-5px);
+        }
+
+        .service-number {
+            font-size: 14px;
+            color: var(--primary);
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .service-card h3 {
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .service-card p {
+            color: #999;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .service-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(200, 163, 95, 0.2);
+        }
+
+        .price {
+            font-size: 24px;
+            color: var(--primary);
+            font-weight: 600;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+
+        /* About */
+        .about {
+            padding: 120px 40px;
+            background: var(--darker);
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-image {
+    height: 600px;
+    background: 
+        linear-gradient(135deg, rgba(200, 163, 95, 0.1), rgba(200, 163, 95, 0.05)),
+        url('https://c90db5cd-06ee-445f-ad41-e8da31925321.selcdn.net/iblock/8d3/8d36ec63fa94730cedd83af16d1e6fdb/a12665c16781e31a6877936dee29b170.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border: 1px solid rgba(200, 163, 95, 0.2);
+}
+
+
+        .about-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            opacity: 0.1;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+        }
+
+        .about-content h2 {
+            font-size: 48px;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        .about-content p {
+            color: #999;
+            font-size: 16px;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            border-left: 2px solid var(--primary);
+            padding-left: 20px;
+        }
+
+        .feature-item h4 {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: #777;
+            margin: 0;
+        }
+
+        /* Contact */
+        .contact {
+            padding: 120px 40px;
+            background: var(--dark);
+        }
+
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .contact-item {
+            border-bottom: 1px solid rgba(200, 163, 95, 0.2);
+            padding-bottom: 30px;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item h3 {
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        .contact-item p {
+            font-size: 18px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .contact-item a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: var(--primary);
+        }
+
+        /* Контейнер с картой */
+.map-container {
+    width: 100%;
+    height: 500px;
+    background: var(--gray);
+    border: 1px solid rgba(200, 163, 95, 0.2);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Картинка */
+.map-image {
+    width: 100%;
+    height: 100%;
+    background: url("https://s.zagranitsa.com/images/guides/19330/original/fb2eb099d2b79dd5e1c6a71b4a1b4031.jpg?1439970594")
+        center center / cover no-repeat;
+}
+
+
+
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 60px 40px 30px;
+            border-top: 1px solid rgba(200, 163, 95, 0.2);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about h3 {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .footer-about p {
+            color: #777;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .footer-links h4 {
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #777;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 30px;
+            border-top: 1px solid rgba(200, 163, 95, 0.1);
+            text-align: center;
+            color: #555;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content h1 {
+                font-size: 70px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+                letter-spacing: 4px;
+            }
+
+            .section-title {
+                font-size: 42px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-container,
+            .contact-container,
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-image {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">BARBERTESTERS</div>
+            <ul class="nav-links">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#about">О нас</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-subtitle">МУЖСКОЙ БАРБЕРШОП В ТУЛЕ</div>
+            <h1>BARBERTESTERS</h1>
+            <p class="hero-description">Профессиональный уход, безупречный стиль и традиции классического барберинга</p>
+            <a href="https://t.me/BarbeshopBetaTestBot" target="_blank" class="cta-button">Записаться сейчас</a>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="services">
+        <div class="section-header">
+            <div class="section-label">ЧТО МЫ ПРЕДЛАГАЕМ</div>
+            <h2 class="section-title">УСЛУГИ</h2>
+            <p class="section-description">Полный спектр барберских услуг от опытных мастеров с использованием премиальных средств</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-number">01</div>
+                <h3>МУЖСКАЯ СТРИЖКА</h3>
+                <p>Классические и современные стрижки. Индивидуальный подход к каждому клиенту с учетом формы лица и структуры волос</p>
+                <div class="service-price">
+                    <span class="price">ОТ 800₽</span>
+                    <span class="price-label">30-40 МИН</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-number">02</div>
+                <h3>БРИТЬЕ ОПАСНОЙ БРИТВОЙ</h3>
+                <p>Традиционное королевское бритье с горячим полотенцем, распариванием и уходовыми процедурами</p>
+                <div class="service-price">
+                    <span class="price">ОТ 600₽</span>
+                    <span class="price-label">20-30 МИН</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-number">03</div>
+                <h3>МОДЕЛИРОВАНИЕ БОРОДЫ</h3>
+                <p>Стрижка и оформление бороды любой длины. Создание четкого контура и идеальной формы</p>
+                <div class="service-price">
+                    <span class="price">ОТ 500₽</span>
+                    <span class="price-label">25-30 МИН</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-number">04</div>
+                <h3>БАРБЕР КОМПЛЕКС</h3>
+                <p>Стрижка + борода + укладка. Полное преображение за одно посещение с максимальной выгодой</p>
+                <div class="service-price">
+                    <span class="price">ОТ 1500₽</span>
+                    <span class="price-label">60-70 МИН</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-number">05</div>
+                <h3>ДЕТСКАЯ СТРИЖКА</h3>
+                <p>Комфортная атмосфера для маленьких клиентов. Аккуратные стрижки без стресса</p>
+                <div class="service-price">
+                    <span class="price">ОТ 600₽</span>
+                    <span class="price-label">20-30 МИН</span>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-number">06</div>
+                <h3>КАМУФЛЯЖ СЕДИНЫ</h3>
+                <p>Естественное тонирование седины премиальными составами без эффекта окрашивания</p>
+                <div class="service-price">
+                    <span class="price">ОТ 700₽</span>
+                    <span class="price-label">25-30 МИН</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content">
+                <div class="section-label">О БАРБЕРШОПЕ</div>
+                <h2>ФИЛОСОФИЯ МАСТЕРСТВА</h2>
+                <p>BarberTesters — это пространство, где встречаются традиции классического барберинга и современные техники стрижки. Мы создали место, где каждый мужчина может получить не просто услугу, а полноценный опыт профессионального ухода.</p>
+                <p>Наши мастера постоянно совершенствуют навыки, следят за мировыми трендами и применяют только проверенные техники. Мы используем премиальную косметику и профессиональное оборудование.</p>
+                <p>Атмосфера барбершопа располагает к неспешным беседам и релаксации. Здесь вы можете отдохнуть от суеты города и доверить свой образ профессионалам.</p>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <h4>ОПЫТНЫЕ МАСТЕРА</h4>
+                        <p>Профессионалы с многолетним стажем</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>ПРЕМИУМ ПРОДУКТЫ</h4>
+                        <p>Только качественная косметика</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>КОМФОРТ</h4>
+                        <p>Атмосфера для настоящих мужчин</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>ИНДИВИДУАЛЬНЫЙ ПОДХОД</h4>
+                        <p>Учитываем все ваши пожелания</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image"></div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="section-header">
+            <div class="section-label">КАК НАС НАЙТИ</div>
+            <h2 class="section-title">КОНТАКТЫ</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>АДРЕС</h3>
+                    <p>г. Тула, ул. Болдина, 149</p>
+                </div>
+                <div class="contact-item">
+                    <h3>ТЕЛЕФОН</h3>
+                    <p><a href="tel:+79805470406">+7 (980) 547-04-06</a></p>
+                    <p style="font-size: 14px; color: #777; margin-top: 10px;">Запись по телефону или через Telegram</p>
+                </div>
+                <div class="contact-item">
+                    <h3>РЕЖИМ РАБОТЫ</h3>
+                    <p>Понедельник — Воскресенье<br>09:00 — 19:00<br>Без выходных</p>
+                </div>
+                <div class="contact-item">
+                    <h3>СОЦИАЛЬНЫЕ СЕТИ</h3>
+                    <p><a href="https://t.me/BarbeshopBetaTestBot" target="_blank">Telegram: @BarbeshopBetaTestBot</a></p>
+                </div>
+            </div>
+           <div class="map-container">
+    <div class="map-image"></div>
+</div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>BARBERTESTERS</h3>
+                <p>Мужской барбершоп в Туле. Профессиональный уход за волосами и бородой. Традиции классического барберинга и современные техники стрижки в одном месте.</p>
+            </div>
+            <div class="footer-links">
+                <h4>НАВИГАЦИЯ</h4>
+                <ul>
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>КОНТАКТЫ</h4>
+                <ul>
+                    <li><a href="tel:+79805470406">+7 (980) 547-04-06</a></li>
+                    <li><a href="#">ул. Болдина, 149</a></li>
+                    <li><a href="https://t.me/BarbeshopBetaTestBot" target="_blank">Telegram</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BarberTesters. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Fade in animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .about-content, .contact-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
